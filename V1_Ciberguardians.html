@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyberpunk Ciberseguridad</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: #00ffcc;
+            text-align: center;
+        }
+        .question-container {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #00ffcc;
+            display: inline-block;
+        }
+        .option {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            background-color: #003366;
+            border: 1px solid #00ffcc;
+            cursor: pointer;
+        }
+        .correct {
+            color: lime;
+        }
+        .incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cyberpunk Ciberseguridad</h1>
+    <p>Selecciona la respuesta correcta para proteger tu sistema.</p>
+    <div id="game"></div>
+    <p>Puntaje: <span id="score">0</span></p>
+    <script>
+        const questions = [
+            { question: "¿Qué es un ataque de phishing?", options: ["Correos falsos para robar información", "Ataque de fuerza bruta", "Exploit en una aplicación"], correct: 0 },
+            { question: "¿Cómo protegerse contra ransomware?", options: ["Hacer copias de seguridad", "Ignorar correos desconocidos", "Desactivar el firewall"], correct: 0 },
+            { question: "¿Qué hace un keylogger?", options: ["Rastrea las teclas que presionas", "Bloquea el acceso a internet", "Elimina archivos importantes"], correct: 0 },
+            { question: "¿Cómo evitar ataques de ingeniería social?", options: ["Verificar fuentes y evitar compartir datos", "Usar antivirus", "Cerrar el navegador"], correct: 0 },
+            { question: "¿Qué es un ataque de denegación de servicio (DDoS)?", options: ["Saturar un sistema con tráfico malicioso", "Hackear redes Wi-Fi", "Infectar un sistema con malware"], correct: 0 },
+            { question: "¿Cómo protegerse contra malware?", options: ["No descargar archivos sospechosos", "Borrar cookies del navegador", "Apagar el router"], correct: 0 },
+            { question: "¿Qué es un ataque de fuerza bruta?", options: ["Intentar adivinar contraseñas probando muchas combinaciones", "Ataque con troyanos", "Phishing avanzado"], correct: 0 },
+            { question: "¿Qué hace un spyware?", options: ["Espía y recopila información del usuario", "Destruye archivos del sistema", "Apaga el equipo automáticamente"], correct: 0 },
+            { question: "¿Cómo protegerse de un ataque de Man-in-the-Middle?", options: ["Usar cifrado y conexiones seguras", "Cerrar pestañas inactivas", "Borrar el historial del navegador"], correct: 0 },
+            { question: "¿Qué es un rootkit?", options: ["Un software que oculta la presencia de malware", "Un virus de rápida propagación", "Un ataque a contraseñas débiles"], correct: 0 }
+        ];
+
+        let score = 0;
+        
+        function loadQuestion(index) {
+            const gameDiv = document.getElementById("game");
+            gameDiv.innerHTML = "";
+            
+            if (index >= questions.length) {
+                gameDiv.innerHTML = `<h2>Juego terminado</h2><p>Puntaje final: ${score}</p>`;
+                return;
+            }
+
+            const questionData = questions[index];
+            const container = document.createElement("div");
+            container.classList.add("question-container");
+            
+            const questionText = document.createElement("h3");
+            questionText.textContent = questionData.question;
+            container.appendChild(questionText);
+            
+            questionData.options.forEach((option, i) => {
+                const button = document.createElement("button");
+                button.textContent = option;
+                button.classList.add("option");
+                button.onclick = function() {
+                    if (i === questionData.correct) {
+                        score += 10;
+                        button.classList.add("correct");
+                    } else {
+                        score -= 5;
+                        button.classList.add("incorrect");
+                    }
+                    document.getElementById("score").textContent = score;
+                    setTimeout(() => loadQuestion(index + 1), 1000);
+                };
+                container.appendChild(button);
+            });
+            gameDiv.appendChild(container);
+        }
+        
+        loadQuestion(0);
+    </script>
+</body>
+</html>
